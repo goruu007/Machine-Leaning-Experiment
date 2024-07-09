@@ -1,0 +1,13 @@
+import numpy as np
+from sklearn.linear_model import Perceptron
+import sklearn.metrics as metrics
+
+X_training = np.array([[0,0],[0,1],[1,0],[1,1]])
+Y_training = np.array([0,1,1,1])
+x_testing = X_training
+
+Ptn = Perceptron(max_iter=500)
+Ptn.fit(X_training, Y_training)
+y_pred = Ptn.predict(x_testing)
+
+print(metrics.accuracy_score(Y_training, y_pred))

@@ -1,0 +1,11 @@
+import pandas as pd
+import seaborn as sns
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+
+# Load the data
+wine_data = pd.read_csv(r'C:\\Users\\gaurav raikwar\\Downloads\\winequality-red.csv')
+# Ordinal encoding of the quality variable
+quality = {0:'low1',1:'low2',2:'low3',3:'low4',4: 'medium1', 5:'medium2', 6:'medium3',7: 'medium4', 8:'high1',9: 'high2', 10:'high3'}
+wine_data['quality'] = wine_data['quality'].map(quality)

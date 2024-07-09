@@ -1,0 +1,59 @@
+print("Gaurav Raikwar")
+print("0901AI223D04")
+
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import Adam
+from keras.utils import to_categorical
+from tensorflow.keras.utils import plot_model
+import matplotlib.pyplot as plt
+
+dataset = pd.read_csv('C:\\Users\\gaurav raikwar\\Downloads\\california_housing_train.csv') 
+df.head(10)
+
+# Extract features and Labels
+X = dataset.drop('Quality', axis=1)  # Changed 'df' to 'dataset'
+y = dataset['Quality']  # Changed 'df' to 'dataset'
+
+# Label encoding for the target variable
+label_encoder = LabelEncoder()  # Added missing '='
+y = label_encoder.fit_transform(y)
+
+# Identify categorical columns
+categorical_columns = X.select_dtypes(include=["object"]).columns  # Corrected syntax
+
+# Create transformers for numerical and categorical data
+numeric_transformer = StandardScaler()  # Added missing '='
+categorical_transformer = OneHotEncoder()  # Added missing '='
+
+# Create a column transformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, X.columns.difference(categorical_columns)),
+        ('cat', categorical_transformer, categorical_columns)  # Corrected syntax
+    ])
+
+# Apply preprocessing to X
+X_preprocessed = preprocessor.fit_transform(X)
+
+# Create a three-layer MLP with 8 input neurons, 1024 neurons in the hidden layer, and sigmoid activation function
+model = Sequential([
+    Dense(8, input_shape=(X_preprocessed.shape[1],), activation='sigmoid', name="input_layer"),
+    Dense(1024, activation='relu', name='hidden_layer'),  # Corrected syntax
+    Dense(len(np.unique(y)), activation='sigmoid', name='output_layer')
+])
+
+# Compile the model
+model.compile(optimizer=Adam(), loss='sparse_categorical_crossentropy', metrics=['accuracy'])  # Corrected syntax
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_preprocessed, y, test_size=0.2, random_state=42)  # Added missing '='
+
+# Train the model
+history = model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test))  # Added missing '='

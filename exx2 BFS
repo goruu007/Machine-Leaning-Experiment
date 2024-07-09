@@ -1,0 +1,29 @@
+print("Gaurav Rakwar")
+print("0901AI223D4")
+from collections import deque
+
+def bfs(visited, graph, node):
+    visited.append(node)
+    queue = deque([node])
+
+    while queue:
+        current_node = queue.popleft()
+
+        # Your code for processing the current node goes here
+        print(f"Visiting node: {current_node}")
+
+        queue.extend([neighbor for neighbor in graph[current_node] if neighbor not in visited])
+        visited.append(current_node)
+
+
+graph = {
+    '5': ['3', '7'],
+    '3': ['2', '4'],
+    '7': ['3'],
+    '2': [],
+    '4': []
+}
+
+visited_nodes = []
+start_node = '5'
+bfs(visited_nodes, graph, start_node)

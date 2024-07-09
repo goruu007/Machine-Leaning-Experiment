@@ -1,0 +1,32 @@
+from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import train_test_split 
+from sklearn.datasets import fetch_california_housing
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import r2_score 
+import pandas as pd
+import matplotlib.pyplot as plt
+print("Name- Gaurav Raikwar")
+print("Enroll no - 0901AI223D04")
+cal_housing = fetch_california_housing()
+X = pd.DataFrame(cal_housing.data, columns=cal_housing.feature_names)
+y = cal_housing.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1,
+test_size=0.2)
+sc_X = StandardScaler()
+X_train_scaled = sc_X.fit_transform(X_train)
+X_test_scaled = sc_X.transform(X_test)
+reg = MLPRegressor(hidden_layer_sizes=(35, 46, 35), activation="relu",
+random_state=1, max_iter=2000).fit(X_train_scaled, y_train)
+y_pred = reg.predict(X_test_scaled)
+# print predicted vs actual values
+print("Predicted: ", y_pred)
+print("Actual: ", y_test)
+# calculate and print accuracy
+accuracy = r2_score(y_test, y_pred)
+print("Accuracy: ", accuracy)
+# plot predicted vs actual values
+plt.scatter(y_test, y_pred)
+plt.xlabel("Actual Values")
+plt.ylabel("Predicted Values")
+plt.title("Actual vs Predicted California Housing Prices")
+plt.show()

@@ -1,0 +1,26 @@
+ dfs(visited, graph, node):
+    if node not in visited:
+        print(f"Visiting node: {node}")
+        visited.add(node)
+
+        for neighbor in graph[node]:
+            dfs(visited, graph, neighbor)
+
+
+# Corrected graph representation
+graph = {
+    '8': ['3', '10'],
+    '3': ['2', '6'],
+    '6': ['4', '7'],
+    '10': [],
+    '2': [],
+    '4': [],
+    '7': [],
+    '20': [],
+    '24': [],
+    '23': []
+}
+
+visited_nodes = set()
+start_node = '8'
+dfs(visited_nodes, graph, start_node)
